@@ -1,18 +1,15 @@
-int getMax(int num1, int num2) {
-  if (num1 > num2)
-    return num1;
-  else if (num1 == num2)
-    return -1;
-  else
-    return num2;
+int addNum(int num1, int num2) {
+  return num1 + num2;
 }
 
-void hello() {
-  print("hello");
+int subNum(int num1, int num2) {
+  return num1 - num2;
 }
 
-void createPlayer({required String name, int level = 1, double exp = 0.0}) {}
+int multiNum(int num1, int num2) {
+  return num1 * num2;
+}
 
-void main() {
-  hello();
+double divideNum(int num1, int num2) {
+  return num1 / num2;
 }

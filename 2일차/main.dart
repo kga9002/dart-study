@@ -1,24 +1,18 @@
-void main() {
-  var text = "";
-  for (var i = 0; i < 7; i++) {
-    String singleLine = "";
-    for (var j = 0; j < 7; j++) {
-      if (i == 0 || i == 6)
-        singleLine += "-";
-      else if (j == 0 || j == 6)
-        singleLine += "|";
-      else if (i == j || i + j == 6)
-        singleLine += "X";
-      else
-        singleLine += "O";
-    }
-    text += "$singleLine\n";
-  }
-  print(text);
+int getMax(int num1, int num2) {
+  if (num1 > num2)
+    return num1;
+  else if (num1 == num2)
+    return -1;
+  else
+    return num2;
+}
 
-  for (var number = 2; number < 10; number += 2) {
-    for (var number2 = 1; number2 < 10; number2++) {
-      print("$number X $number2 = ${number * number2}");
-    }
-  }
+void hello() {
+  print("hello");
+}
+
+void createPlayer({required String name, int level = 1, double exp = 0.0}) {}
+
+void main() {
+  hello();
 }

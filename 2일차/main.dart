@@ -1,10 +1,7 @@
 void main() {
-  String a = "banana";
-
-  if (a == "1")
-    print("object");
-  else if (a == "apple")
-    print("apple");
-  else
-    print("no cases");
+  for (var dan = 1; dan < 10; dan++) {
+    for (var number = 1; number < 10; number++) {
+      print("$dan X $number = ${number * dan}");
+    }
+  }
 }

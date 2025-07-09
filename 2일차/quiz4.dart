@@ -4,7 +4,6 @@ void main() {
       print("짝");
     else
       print(i);
-    ;
   }
 
   var j = 1;
@@ -14,6 +13,5 @@ void main() {
     else
       print(j);
     j++;
-    ;
   }
 }

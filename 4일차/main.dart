@@ -1,7 +1,9 @@
 class Integer {
   late int _value;
 
-  Integer([int givenValue = 0]) : _value = givenValue;
+  Integer([int givenNumber = 0]) {
+    _value = givenNumber;
+  }
 
   int get() {
     return _value;
@@ -34,7 +36,7 @@ class Integer {
   }
 }
 
-class NewInteger extends Integer {
+class NewInteger extends Integer with ActivationFlag {
   List<int> _list = [];
 
   NewInteger([int givenValue = 0]) {
@@ -43,7 +45,12 @@ class NewInteger extends Integer {
 
   @override
   set changeInteger(int givenValue) {
-    _list.add(givenValue);
+    if (activated == true) {
+      _list.add(givenValue);
+      print("set 함수 실행됨. 현재 저장된 결과는 $_list임");
+    } else {
+      print("set함수 실행 안함");
+    }
     super.changeInteger = givenValue;
   }
 
@@ -55,11 +62,19 @@ class NewInteger extends Integer {
   }
 }
 
+mixin ActivationFlag on Integer {
+  bool _flag = true;
+  bool get activated => _flag;
+  set activated(bool givenFlag) => (_flag = givenFlag);
+}
 void main() {
-  var newNum1 = NewInteger();
-  var newNum2 = NewInteger(3);
+  var num1 = NewInteger();
 
-  newNum1.changeInteger = 9;
-  newNum1.changeInteger = 6;
-  print(newNum1.asString);
+  num1.changeInteger = 2;
+  num1.changeInteger = 4;
+
+  num1.activated = false;
+
+  num1.changeInteger = 6;
+  num1.changeInteger = 8;
 }

@@ -1,9 +1,7 @@
 class Integer {
   late int _value;
 
-  Integer(int givenNumber) {
-    _value = givenNumber;
-  }
+  Integer([int givenValue = 0]) : _value = givenValue;
 
   int get() {
     return _value;
@@ -12,6 +10,8 @@ class Integer {
   set changeInteger(int givenNumber) {
     _value = givenNumber;
   }
+
+  String get asString => '$_value';
 
   Integer operator +(Integer givenValue) {
     return Integer(_value + givenValue.get());
@@ -34,17 +34,32 @@ class Integer {
   }
 }
 
+class NewInteger extends Integer {
+  List<int> _list = [];
+
+  NewInteger([int givenValue = 0]) {
+    _value = givenValue;
+  }
+
+  @override
+  set changeInteger(int givenValue) {
+    _list.add(givenValue);
+    super.changeInteger = givenValue;
+  }
+
+  @override
+  String get asString => '현재 값: $_value, 기존에 지정했던 값들: $_list';
+
+  List getOld() {
+    return _list;
+  }
+}
+
 void main() {
-  var num1 = Integer(5);
-  var num2 = Integer(10);
+  var newNum1 = NewInteger();
+  var newNum2 = NewInteger(3);
 
-  var num3 = num1 + num2;
-  var num4 = num1 ~/ num2;
-  var num5 = num1 * num2;
-  var num6 = num1 / num2;
-
-  print(num3.get());
-  print(num4.get());
-  print(num5.get());
-  print(num6);
+  newNum1.changeInteger = 9;
+  newNum1.changeInteger = 6;
+  print(newNum1.asString);
 }

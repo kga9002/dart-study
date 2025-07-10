@@ -3,7 +3,11 @@ class Human {
   late int _age;
   late String _gender;
 
-  Human({required givenName, required givenAge, required givenGen}) {
+  Human({
+    required String givenName,
+    required int givenAge,
+    required String givenGen,
+  }) {
     _name = givenName;
     _age = givenAge;
     _gender = givenGen;

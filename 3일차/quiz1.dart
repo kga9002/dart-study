@@ -6,4 +6,5 @@ void main() {
     else
       continue;
   }
+  print(numArr);
 }

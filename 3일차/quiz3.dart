@@ -19,3 +19,5 @@ class Player {
   set setName(String givenName) => _name = givenName;
   set setAge(int givenAge) => _age = givenAge;
 }
+
+void main() {}

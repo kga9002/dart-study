@@ -1,80 +1,43 @@
-class Integer {
-  late int _value;
+abstract class Rectangle {
+  int cx = 0, cy = 0;
 
-  Integer([int givenNumber = 0]) {
-    _value = givenNumber;
-  }
-
-  int get() {
-    return _value;
-  }
-
-  set changeInteger(int givenNumber) {
-    _value = givenNumber;
-  }
-
-  String get asString => '$_value';
-
-  Integer operator +(Integer givenValue) {
-    return Integer(_value + givenValue.get());
-  }
-
-  Integer operator -(Integer givenValue) {
-    return Integer(_value - givenValue.get());
-  }
-
-  Integer operator *(Integer givenValue) {
-    return Integer(_value * givenValue.get());
-  }
-
-  Integer operator ~/(Integer givenValue) {
-    return Integer(_value ~/ givenValue.get());
-  }
-
-  double operator /(Integer givenValue) {
-    return _value / givenValue.get();
-  }
+  // 선언만 할수있고 내부에서 뭔가 할수 없다.
+  void draw();
 }
 
-class NewInteger extends Integer with ActivationFlag {
-  List<int> _list = [];
+class Square implements Rectangle {
+  @override
+  int cx = 0, cy = 0;
 
-  NewInteger([int givenValue = 0]) {
-    _value = givenValue;
-  }
+  late int width, height;
 
   @override
-  set changeInteger(int givenValue) {
-    if (activated == true) {
-      _list.add(givenValue);
-      print("set 함수 실행됨. 현재 저장된 결과는 $_list임");
-    } else {
-      print("set함수 실행 안함");
-    }
-    super.changeInteger = givenValue;
+  void draw() {
+    print("사각형을 그립니다.");
   }
+
+  Square([int givenWidth = 5, givenHeight = 7])
+    : width = givenWidth,
+      height = givenHeight;
+}
+
+class Circle implements Rectangle {
+  @override
+  int cx = 0, cy = 0;
+
+  late int radius;
 
   @override
-  String get asString => '현재 값: $_value, 기존에 지정했던 값들: $_list';
-
-  List getOld() {
-    return _list;
+  void draw() {
+    print("원을 그립니다.");
   }
+
+  Circle([int givenRadius = 1]) : radius = givenRadius;
 }
 
-mixin ActivationFlag on Integer {
-  bool _flag = true;
-  bool get activated => _flag;
-  set activated(bool givenFlag) => (_flag = givenFlag);
-}
 void main() {
-  var num1 = NewInteger();
+  var circle = Circle();
+  var square = Square(10, 24);
 
-  num1.changeInteger = 2;
-  num1.changeInteger = 4;
-
-  num1.activated = false;
-
-  num1.changeInteger = 6;
-  num1.changeInteger = 8;
+  circle.draw();
 }

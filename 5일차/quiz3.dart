@@ -13,8 +13,11 @@ class NoStringException implements Exception {
 
 void main() {
   int num = 10;
-
-  if (num.runtimeType != "String") {
-    throw NoStringException();
+  try {
+    if (num.runtimeType != String) {
+      throw NoStringException();
+    }
+  } catch (e) {
+    print(e); // 출력: 해당 값은 문자열이 아닙니다.
   }
 }

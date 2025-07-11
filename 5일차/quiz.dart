@@ -1,5 +1,5 @@
 class Shop<T> {
-  late dynamic item;
+  late T item;
 
   Shop(T givenItem) : item = givenItem;
 

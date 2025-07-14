@@ -1,20 +1,40 @@
-import "dart:convert";
-import "dart:io";
+import 'dart:io';
+import 'dart:convert';
 
-void main() {
-  var iList = <String>[];
-  var indexLst = <int>[];
+Future<List<String>> readFileToList(String filename) async {
+  Stream<String> lines = File(
+    filename,
+  ).openRead().transform(utf8.decoder).transform(LineSplitter());
 
-  stdout.write("숫자 두배를 ,를 통해 입력해주세요. (예시 3,3)");
-  var input = stdin.readLineSync();
-
-  iList = input!.split(",");
-
-  for (var item in iList) {
-    indexLst.add(int.parse(item));
+  try {
+    List<String> sList = [];
+    await for (var line in lines) {
+      sList.add(line);
+    }
+    return sList;
+  } catch (e) {
+    throw (e);
   }
+}
 
-  stdout.writeln(
-    "더하기 프로그램을 진행합니다. ${indexLst[0]} + ${indexLst[1]} = ${indexLst[0] + indexLst[1]}",
-  );
+void main() async {
+  List<String> fileContent = await readFileToList("6일차/src.txt");
+
+  var sList = [];
+  var iVar1 = 0;
+  var iVar2 = 0;
+  var count = 0;
+  var dstSink = File("6일차/dst.txt").openWrite();
+
+  dstSink.write(':=> FILE ACCESSED ${DateTime.now()}\n');
+
+  for (var fileLine in fileContent) {
+    sList = fileLine.split(",");
+    iVar1 = int.parse(sList[0]);
+    iVar2 = int.parse(sList[1]);
+    dstSink.write("$iVar1 X $iVar2 = ${iVar1 * iVar2}\n");
+    count++;
+  }
+  dstSink.write(':=> $count ITEMS CALCULATED');
+  dstSink.close();
 }

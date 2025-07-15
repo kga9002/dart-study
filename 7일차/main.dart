@@ -1,62 +1,60 @@
-import 'dart:io';
-import 'dart:async';
-import 'dart:math';
+import "dart:io";
 
-void main() {
-  //   List<String> fruits = ["Apple is Red", "  Banana  ", "Mango"];
-  //   print("[1] Mango in List ? : ${fruits.contains("Mango")}");
-  //   print("[1] Starts with Apple ? : ${fruits[0].startsWith("Apple")}");
-  //   print("[1] Ends with Red ? : ${fruits[0].endsWith("Red")}");
-  //   print("[1] Index of Red ? : ${fruits.indexOf("Red")}");
-  //   print("[1] Trim '  Banana  ' ? : ${fruits[1].trim()}");
+void main() async {
+  var ip = InternetAddress.loopbackIPv4;
+  var port = 4040;
+  var server = await HttpServer.bind(ip, port);
 
-  //   // Platform - dart:io
+  print("\$ server activated - ${server.address.address}:${server.port}");
 
-  //   String os = Platform.operatingSystem;
-  //   String path = Platform.script.toFilePath();
-  //   print("OS : $os");
-  //   print("Source File : $path");
+  await for (HttpRequest request in server) {
+    try {
+      if (request.uri.path == "/") {
+        print("http response is 'Hello world'");
+        print("send '200 ok'");
 
-  //   // dart:math
-  //   print("[3] max(2,4) : ${max(2, 4)}");
-  //   print("[3] min(2,4) : ${min(2, 4)}");
-  //   print("[3] e : {$e}");
-  //   print("[3] pi : $pi");
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..write("Hello World");
 
-  var t1 = DateTime.now();
-  Future<int> async1() async {
-    print("async1() : 1second left");
-    await Future.delayed(Duration(seconds: 1));
-    print("async1() : finished");
-    return 10;
+        await request.response.close();
+      } else if (request.uri.path.contains("/add")) {
+        print("http response is result of 'add' operation");
+        print("send '200 ok'");
+
+        var varList = request.uri.path.split(",");
+        var result = int.parse(varList[1]) + int.parse(varList[2]);
+
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..write("${varList[1]} + ${varList[2]} = $result");
+        await request.response.close();
+      } else if (await File(request.uri.path.substring(1)).exists() == true) {
+        print("https response is ${request.uri.path} file transfer");
+        print("send '200 ok'");
+
+        var file = File(request.uri.path.substring(1));
+        var fileContent = await file.readAsString();
+
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..headers.contentType = ContentType('text', "plain", charset: "utf-8")
+          ..write(fileContent);
+
+        await request.response.close();
+      } else if (request.uri.path.contains("/dan")) {
+        var varList = request.uri.path.split(",");
+        var dan = int.parse(varList[1]);
+
+        request.response.statusCode = HttpStatus.ok;
+        for (var i = 1; i < 10; i++) {
+          request.response.write("$dan * $i = ${i * dan}\n");
+        }
+        await request.response.close();
+      }
+    } catch (e) {
+      print("exception in http request processing");
+      print(e);
+    }
   }
-
-  Future<int> async2() async {
-    print("async2() : 2second left");
-    await Future.delayed(Duration(seconds: 1));
-    print("async2() : 1second left");
-    await Future.delayed(Duration(seconds: 1));
-    print("async2() : finished");
-    return 20;
-  }
-
-  Future<int> async3() async {
-    print("async3() : 3second left");
-    await Future.delayed(Duration(seconds: 1));
-    print("async3() : 2second left");
-    await Future.delayed(Duration(seconds: 1));
-    print("async3() : 1second left");
-    await Future.delayed(Duration(seconds: 1));
-    print("async3() : finished");
-    return 20;
-  }
-
-  Future.wait([async1(), async2(), async3()])
-      .then((List<int> nums) {
-        var t2 = DateTime.now();
-
-        var sum = nums.reduce((curr, next) => curr + next);
-        print("sum : $sum < Time : ${t2.difference(t1)} > ");
-      })
-      .catchError(print);
 }

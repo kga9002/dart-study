@@ -29,16 +29,19 @@ Future main() async {
   await for (HttpRequest request in server) {
     try {
       if (request.uri.path.contains("capital")) {
-        var capitalKey = request.uri.path.split("=")[1];
+        var capitalKey = request.uri.path.split("=");
 
-        request.response.statusCode = HttpStatus.ok;
+        request.response
+          ..statusCode = HttpStatus.ok
+          ..headers.contentType = ContentType("text", "plain")
+          ..headers.contentLength = capital[capitalKey];
         if (capital[capitalKey] == null) {
           request.response.write("유효하지 않은 수도를 입력하셨습니다.");
         } else {
           request.response.write("$capitalKey의 수도는 ${capital[capitalKey]}");
         }
-        await request.response.close();
       }
+      await request.response.close();
     } catch (e) {
       print(e);
     }

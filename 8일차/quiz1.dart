@@ -148,11 +148,14 @@ void printAndSendHttpResponse(
   String content,
 ) async {
   print("\$ $content \n current DB      : $database");
+
+  var data = utf8.encode(content);
+
   request.response
     ..headers.contentType = ContentType('text', 'plain', charset: 'utf-8')
-    ..headers.contentLength = content.length
+    ..headers.contentLength = data.length
     ..statusCode = HttpStatus.ok
-    ..write(content);
+    ..write(data);
 
   await request.response.close();
 }

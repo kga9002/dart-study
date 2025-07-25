@@ -138,7 +138,7 @@ void createUser(Map database, HttpRequest request) async {
     database[key] = value;
     content = "Success < $transaction created>";
   } else {
-    content = "Fail < $key already exist";
+    content = "Fail < $key already exist >";
   }
 
   printAndSendHttpResponse(database, request, content);
@@ -159,7 +159,7 @@ void rentalBook(Map database, HttpRequest request) async {
       database[key] = userID;
       content = "< $key updated >";
     } else {
-      content = "already rentaled";
+      content = "already rented";
     }
   } else {
     content = "< $key not-exist >";
@@ -179,7 +179,7 @@ void returnBook(Map database, HttpRequest request) async {
     database[key] = null;
     content = "< $key updated >";
   } else if (database[key] != userID) {
-    content = "you did not rental";
+    content = "you did not rented";
   } else {
     content = "< $key not-exist >";
   }
